@@ -123,6 +123,8 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(tableView: UITableView,
                    commitEditingStyle editingStyle: UITableViewCellEditingStyle,
                    forRowAtIndexPath indexPath: NSIndexPath) {
+        let card = self.cards[indexPath.row]
+        card.deleteImage()
         self.cards.removeAtIndex(indexPath.row)
         Card.save(self.cards)
         self.tableView.beginUpdates()
