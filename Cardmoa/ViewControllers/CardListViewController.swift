@@ -130,6 +130,7 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tableView.beginUpdates()
         self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         self.tableView.endUpdates()
+        self.updateEditButtonHidden()
     }
 
     func setTableViewEditing(editing: Bool, animated: Bool) {
