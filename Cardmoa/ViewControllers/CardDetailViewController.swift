@@ -22,6 +22,8 @@ class CardDetailViewController: UIViewController {
         self.title = card.name
         self.card = card
 
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "backgroundDidTap"))
+
         self.loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
         self.loadingIndicator.center = CGPoint(x: CGRectGetMidX(self.view.bounds), y: CGRectGetMidY(self.view.bounds))
         self.loadingIndicator.startAnimating()
@@ -41,6 +43,15 @@ class CardDetailViewController: UIViewController {
                 self.loadingIndicator.stopAnimating()
             }
         )
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        self.navigationController!.setNavigationBarHidden(true, animated: true)
+    }
+
+    func backgroundDidTap() {
+        let hidden = self.navigationController!.navigationBarHidden
+        self.navigationController!.setNavigationBarHidden(!hidden, animated: true)
     }
 
 }
