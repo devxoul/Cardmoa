@@ -10,6 +10,7 @@ import UIKit
 
 class CardDetailViewController: UIViewController {
 
+    var loadingIndicator: UIActivityIndicatorView!
     var imageView: UIImageView!
 
     var card: Card!
@@ -21,23 +22,25 @@ class CardDetailViewController: UIViewController {
         self.title = card.name
         self.card = card
 
-        self.imageView = UIImageView()
+        self.loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        self.loadingIndicator.center = CGPoint(x: CGRectGetMidX(self.view.bounds), y: CGRectGetMidY(self.view.bounds))
+        self.loadingIndicator.startAnimating()
+        self.view.addSubview(self.loadingIndicator)
+
+        self.imageView = UIImageView(frame: self.view.bounds)
         self.imageView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
+        self.imageView.contentMode = .ScaleAspectFit
         self.view.addSubview(self.imageView)
 
-        self.loadImage()
-    }
-
-    func loadImage() {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), {
-            if let image = UIImage(contentsOfFile: self.card.imagePath) {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.imageView.image = image
-                })
-            } else {
-                // TODO: Error loading image from disk
+        self.card.fetchImage(
+            success: {
+                self.loadingIndicator.stopAnimating()
+                self.imageView.image = self.card.image
+            },
+            failure: {
+                self.loadingIndicator.stopAnimating()
             }
-        })
+        )
     }
 
 }

@@ -17,6 +17,9 @@
 		039E1C761A59411A003692E2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039E1C751A59411A003692E2 /* UIKit.framework */; };
 		039E1C781A59411E003692E2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 039E1C771A59411E003692E2 /* Foundation.framework */; };
 		039E1C7C1A594D3C003692E2 /* CardDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039E1C7B1A594D3C003692E2 /* CardDetailViewController.swift */; };
+		039E1C7E1A595028003692E2 /* CardEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039E1C7D1A595028003692E2 /* CardEditorViewController.swift */; };
+		039E1C841A5951CD003692E2 /* EditableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039E1C831A5951CD003692E2 /* EditableCell.swift */; };
+		039E1C861A5953F1003692E2 /* CardImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039E1C851A5953F1003692E2 /* CardImageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +48,9 @@
 		039E1C751A59411A003692E2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		039E1C771A59411E003692E2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		039E1C7B1A594D3C003692E2 /* CardDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardDetailViewController.swift; sourceTree = "<group>"; };
+		039E1C7D1A595028003692E2 /* CardEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardEditorViewController.swift; sourceTree = "<group>"; };
+		039E1C831A5951CD003692E2 /* EditableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableCell.swift; sourceTree = "<group>"; };
+		039E1C851A5953F1003692E2 /* CardImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardImageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +99,7 @@
 				039E1C3E1A593909003692E2 /* AppDelegate.swift */,
 				039E1C5F1A593DBE003692E2 /* Utils */,
 				039E1C611A593DBE003692E2 /* ViewControllers */,
+				039E1C821A5951B8003692E2 /* Views */,
 				039E1C5E1A593DBE003692E2 /* Models */,
 				039E1C3C1A593909003692E2 /* Supporting Files */,
 			);
@@ -145,6 +152,7 @@
 			children = (
 				039E1C621A593DBE003692E2 /* CardListViewController.swift */,
 				039E1C7B1A594D3C003692E2 /* CardDetailViewController.swift */,
+				039E1C7D1A595028003692E2 /* CardEditorViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -165,6 +173,15 @@
 				039E1C751A59411A003692E2 /* UIKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		039E1C821A5951B8003692E2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				039E1C831A5951CD003692E2 /* EditableCell.swift */,
+				039E1C851A5953F1003692E2 /* CardImageCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,8 +292,11 @@
 				039E1C7C1A594D3C003692E2 /* CardDetailViewController.swift in Sources */,
 				039E1C641A593DBE003692E2 /* CardListViewController.swift in Sources */,
 				039E1C631A593DBE003692E2 /* LocalizedString.swift in Sources */,
+				039E1C861A5953F1003692E2 /* CardImageCell.swift in Sources */,
+				039E1C7E1A595028003692E2 /* CardEditorViewController.swift in Sources */,
 				039E1C3F1A593909003692E2 /* AppDelegate.swift in Sources */,
 				039E1C701A593FF4003692E2 /* Card.swift in Sources */,
+				039E1C841A5951CD003692E2 /* EditableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

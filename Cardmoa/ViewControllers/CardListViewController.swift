@@ -14,10 +14,6 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         static let Default = "Default"
     }
 
-    private struct UserDefaultsKey {
-        static let Cards = "Cards"
-    }
-
 
     var tableView: UITableView!
 
@@ -29,6 +25,17 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         self.title = __("Cardmoa")
         self.view.backgroundColor = UIColor.whiteColor()
 
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .Edit,
+            target: self,
+            action: "editButtonDidPress"
+        )
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .Add,
+            target: self,
+            action: "addButtonDidPress"
+        )
+
         self.tableView = UITableView()
         self.tableView.frame = self.view.bounds
         self.tableView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
@@ -36,29 +43,25 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tableView.delegate = self
         self.view.addSubview(self.tableView)
 
-        self.cards = []
-        self.fetchCards()
-    }
-
-
-    // MARK: -
-
-    func fetchCards() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let cards = userDefaults.objectForKey(UserDefaultsKey.Cards) as? [[String: AnyObject]] {
-            self.cards = cards.map { Card(dictionary: $0) }
-        }
-        let card = Card()
-        card.name = "Starbucks"
-        card.memo = "예지꺼"
-        self.cards.append(card)
+        self.cards = Card.fetchAll()
         self.tableView.reloadData()
+
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "cardDidSave:",
+            name: CardDidSaveNotification,
+            object: nil
+        )
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "cardDidDelete:",
+            name: CardDidDeleteNotification,
+            object: nil
+        )
     }
 
-    func saveCards() {
-        var cards = self.cards.map { $0.dictionaryValue }
-        NSUserDefaults.standardUserDefaults().setObject(cards, forKey: UserDefaultsKey.Cards)
-        NSUserDefaults.standardUserDefaults().synchronize()
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
 
@@ -86,6 +89,33 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         let card = self.cards[indexPath.row]
         let detailView = CardDetailViewController(card: card)
         self.navigationController?.pushViewController(detailView, animated: true)
+    }
+
+
+    // MARK: - Navigation Item
+
+    func editButtonDidPress() {
+
+    }
+
+    func addButtonDidPress() {
+        let editorView = CardEditorViewController()
+        let navigationController = UINavigationController(rootViewController: editorView)
+        self.presentViewController(navigationController, animated: true, completion: nil)
+    }
+
+
+    // MARK: - Notification
+
+    func cardDidSave(notification: NSNotification) {
+        let card = notification.object as Card
+        self.cards.append(card)
+        Card.sort(&self.cards)
+        Card.save(self.cards)
+    }
+
+    func cardDidDelete(notification: NSNotification) {
+
     }
 
 }
