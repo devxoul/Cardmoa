@@ -98,6 +98,7 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         cell!.detailTextLabel?.text = card.memo
         cell!.detailTextLabel?.textColor = UIColor.darkGrayColor()
         cell!.accessoryType = .DisclosureIndicator
+        cell!.editingAccessoryType = .DisclosureIndicator
         return cell!
     }
 
