@@ -103,7 +103,7 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         } else {
             let editorView = CardEditorViewController(card: card)
             let navigationController = UINavigationController(rootViewController: editorView)
-            self.presentViewController(navigationController, animated: true, completion: nil)
+            self.presentViewController(navigationController, animated: true, completion: self.editButtonDidPress)
         }
     }
 
@@ -145,9 +145,12 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
 
     func cardDidSave(notification: NSNotification) {
         let card = notification.object as Card
-        self.cards.append(card)
+        if !contains(self.cards, card) {
+            self.cards.append(card)
+        }
         Card.sort(&self.cards)
         Card.save(self.cards)
+        self.tableView.reloadData()
     }
 
     func cardDidDelete(notification: NSNotification) {

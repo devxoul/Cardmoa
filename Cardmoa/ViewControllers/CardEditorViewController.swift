@@ -24,8 +24,8 @@ class CardEditorViewController: UIViewController, UITableViewDataSource, UITable
     var tableView: UITableView!
 
     var card: Card?
-    var name: String?
-    var memo: String?
+    var name: String!
+    var memo: String!
     var image: UIImage?
     var loadingImage: Bool = false
 
@@ -33,6 +33,8 @@ class CardEditorViewController: UIViewController, UITableViewDataSource, UITable
     convenience override init() {
         self.init(nibName: nil, bundle: nil)
         self.title = __("New Card")
+        self.name = ""
+        self.memo = ""
 
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .Cancel,
@@ -73,22 +75,23 @@ class CardEditorViewController: UIViewController, UITableViewDataSource, UITable
         self.title = __("Edit Card")
         self.card = card
         self.name = card.name
-        self.name = card.memo
+        self.memo = card.memo
 
         if let image = card.image {
             self.image = image
+            self.updateSaveButtonEnabled()
         } else {
             self.loadingImage = true
             card.fetchImage(
                 success: {
                     self.loadingImage = false
                     self.image = card.image
-                    // TODO: Update tableview without dismiss keyboard
+                    self.updateSaveButtonEnabled()
                 },
                 failure: {
                     self.loadingImage = false
                     card.image = nil
-                    // TODO: Update tableview without dismiss keyboard
+                    self.updateSaveButtonEnabled()
                 }
             )
         }
@@ -255,9 +258,9 @@ class CardEditorViewController: UIViewController, UITableViewDataSource, UITable
             card = Card()
         }
 
-        card.name = self.name!
-        card.memo = self.memo!
-        card.image = self.image!
+        card.name = self.name
+        card.memo = self.memo
+        card.image = self.image
         card.saveImage()
         NSNotificationCenter.defaultCenter().postNotificationName(CardDidSaveNotification, object: card)
 
