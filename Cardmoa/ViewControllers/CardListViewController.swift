@@ -73,6 +73,14 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.updateEditButtonHidden()
+        if self.tableView.editing {
+            self.setTableViewEditing(false, animated: false)
+        }
+    }
+
 
     // MARK: - UITableView
 
@@ -103,7 +111,7 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         } else {
             let editorView = CardEditorViewController(card: card)
             let navigationController = UINavigationController(rootViewController: editorView)
-            self.presentViewController(navigationController, animated: true, completion: self.editButtonDidPress)
+            self.presentViewController(navigationController, animated: true, completion: nil)
         }
     }
 
@@ -121,17 +129,31 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tableView.endUpdates()
     }
 
+    func setTableViewEditing(editing: Bool, animated: Bool) {
+        if editing {
+            self.navigationItem.leftBarButtonItem = self.doneButton
+        } else {
+            self.navigationItem.leftBarButtonItem = self.editButton
+        }
+        self.tableView.setEditing(editing, animated: animated)
+    }
+
 
     // MARK: - Navigation Item
 
+    func updateEditButtonHidden() {
+        if self.cards.count == 0 {
+            self.navigationItem.leftBarButtonItem = nil
+        } else if self.tableView.editing {
+            self.navigationItem.leftBarButtonItem = self.doneButton
+        } else {
+            self.navigationItem.leftBarButtonItem = self.editButton
+        }
+    }
+
     func editButtonDidPress() {
         let editing = self.tableView.editing
-        if editing {
-            self.navigationItem.leftBarButtonItem = self.editButton
-        } else {
-            self.navigationItem.leftBarButtonItem = self.doneButton
-        }
-        self.tableView.setEditing(!editing, animated: true)
+        self.setTableViewEditing(!editing, animated: true)
     }
 
     func addButtonDidPress() {
@@ -151,6 +173,7 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         Card.sort(&self.cards)
         Card.save(self.cards)
         self.tableView.reloadData()
+        self.updateEditButtonHidden()
     }
 
     func cardDidDelete(notification: NSNotification) {
