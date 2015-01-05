@@ -39,7 +39,7 @@ class CardImageCell: UITableViewCell {
         self.addButton = UIButton.buttonWithType(.System) as UIButton
         self.addButton.frame = self.bounds
         self.addButton.autoresizingMask = .FlexibleWidth | .FlexibleHeight
-        self.addButton.setTitle(__("Add image..."), forState: .Normal)
+        self.addButton.setTitle(__("add_image"), forState: .Normal)
         self.addButton.addTarget(self, action: "performDelegateTap", forControlEvents: .TouchUpInside)
         self.contentView.addSubview(self.addButton)
 

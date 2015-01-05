@@ -24,7 +24,7 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
 
     convenience override init() {
         self.init(nibName: nil, bundle: nil)
-        self.title = __("Cardmoa")
+        self.title = __("card_list")
         self.view.backgroundColor = UIColor.whiteColor()
 
         self.editButton = UIBarButtonItem(

@@ -5,3 +5,13 @@
   Created by 전수열 on 1/4/15.
   Copyright (c) 2015 Suyeol Jeon. All rights reserved.
 */
+
+"card_list" = "카드 목록";
+"new_card" = "새 카드";
+"edit_card" = "카드 편집";
+"card_info" = "카드 정보";
+"card_image" = "카드 이미지";
+"name" = "이름";
+"memo" = "메모";
+"optional" = "선택";
+"add_image" = "이미지 추가하기...";

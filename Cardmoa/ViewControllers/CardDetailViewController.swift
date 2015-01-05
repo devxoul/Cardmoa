@@ -48,7 +48,14 @@ class CardDetailViewController: UIViewController {
     }
 
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         self.startNavigationBarHiddenTimer()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.stopNavigationBarHiddenTimer()
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
     func startNavigationBarHiddenTimer() {
@@ -71,13 +78,13 @@ class CardDetailViewController: UIViewController {
     }
 
     func hideNavigationBar() {
-        self.navigationController!.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
     func backgroundDidTap() {
         self.stopNavigationBarHiddenTimer()
         let hidden = self.navigationController!.navigationBarHidden
-        self.navigationController!.setNavigationBarHidden(!hidden, animated: true)
+        self.navigationController?.setNavigationBarHidden(!hidden, animated: true)
     }
 
 }

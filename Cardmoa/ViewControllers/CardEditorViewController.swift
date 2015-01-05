@@ -32,7 +32,7 @@ class CardEditorViewController: UIViewController, UITableViewDataSource, UITable
 
     convenience override init() {
         self.init(nibName: nil, bundle: nil)
-        self.title = __("New Card")
+        self.title = __("new_card")
         self.name = ""
         self.memo = ""
 
@@ -72,7 +72,7 @@ class CardEditorViewController: UIViewController, UITableViewDataSource, UITable
 
     convenience init(card: Card) {
         self.init()
-        self.title = __("Edit Card")
+        self.title = __("edit_card")
         self.card = card
         self.name = card.name
         self.memo = card.memo
@@ -117,8 +117,8 @@ class CardEditorViewController: UIViewController, UITableViewDataSource, UITable
 
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch Section(rawValue: section)! {
-        case .Info: return __("Card info")
-        case .Image: return __("Card image")
+        case .Info: return __("card_info")
+        case .Image: return __("card_image")
         }
     }
 
@@ -140,10 +140,10 @@ class CardEditorViewController: UIViewController, UITableViewDataSource, UITable
             let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier.Info) as EditableCell
             cell.delegate = self
             if indexPath.row == 0 {
-                cell.textField.placeholder = __("Name")
+                cell.textField.placeholder = __("name")
                 cell.textField.text = self.name
             } else {
-                cell.textField.placeholder = __("Memo") + " (" + __("Optional") + ")"
+                cell.textField.placeholder = __("memo") + " (" + __("optional") + ")"
                 cell.textField.text = self.memo
             }
             return cell
