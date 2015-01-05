@@ -15,6 +15,8 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
 
+    var editButton: UIBarButtonItem!
+    var doneButton: UIBarButtonItem!
     var tableView: UITableView!
 
     var cards: [Card]!
@@ -25,11 +27,17 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         self.title = __("Cardmoa")
         self.view.backgroundColor = UIColor.whiteColor()
 
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(
+        self.editButton = UIBarButtonItem(
             barButtonSystemItem: .Edit,
             target: self,
             action: "editButtonDidPress"
         )
+        self.doneButton = UIBarButtonItem(
+            barButtonSystemItem: .Done,
+            target: self,
+            action: "editButtonDidPress"
+        )
+        self.navigationItem.leftBarButtonItem = self.editButton
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .Add,
             target: self,
@@ -41,6 +49,7 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
         self.tableView.autoresizingMask = .FlexibleWidth | .FlexibleHeight
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        self.tableView.allowsSelectionDuringEditing = true
         self.view.addSubview(self.tableView)
 
         self.cards = Card.fetchAll()
@@ -87,15 +96,42 @@ class CardListViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: false)
         let card = self.cards[indexPath.row]
-        let detailView = CardDetailViewController(card: card)
-        self.navigationController?.pushViewController(detailView, animated: true)
+
+        if !tableView.editing {
+            let detailView = CardDetailViewController(card: card)
+            self.navigationController?.pushViewController(detailView, animated: true)
+        } else {
+            let editorView = CardEditorViewController(card: card)
+            let navigationController = UINavigationController(rootViewController: editorView)
+            self.presentViewController(navigationController, animated: true, completion: nil)
+        }
+    }
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(tableView: UITableView,
+                   commitEditingStyle editingStyle: UITableViewCellEditingStyle,
+                   forRowAtIndexPath indexPath: NSIndexPath) {
+        self.cards.removeAtIndex(indexPath.row)
+        Card.save(self.cards)
+        self.tableView.beginUpdates()
+        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        self.tableView.endUpdates()
     }
 
 
     // MARK: - Navigation Item
 
     func editButtonDidPress() {
-
+        let editing = self.tableView.editing
+        if editing {
+            self.navigationItem.leftBarButtonItem = self.editButton
+        } else {
+            self.navigationItem.leftBarButtonItem = self.doneButton
+        }
+        self.tableView.setEditing(!editing, animated: true)
     }
 
     func addButtonDidPress() {
