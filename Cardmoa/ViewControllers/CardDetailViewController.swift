@@ -13,6 +13,8 @@ class CardDetailViewController: UIViewController {
     var loadingIndicator: UIActivityIndicatorView!
     var imageView: UIImageView!
 
+    var navigationBarHiddenTimer: NSTimer?
+
     var card: Card!
 
 
@@ -46,10 +48,34 @@ class CardDetailViewController: UIViewController {
     }
 
     override func viewDidAppear(animated: Bool) {
+        self.startNavigationBarHiddenTimer()
+    }
+
+    func startNavigationBarHiddenTimer() {
+        self.stopNavigationBarHiddenTimer()
+        self.navigationBarHiddenTimer = NSTimer(
+            timeInterval: 0.5,
+            target: self,
+            selector: "hideNavigationBar",
+            userInfo: nil,
+            repeats: false
+        )
+        NSRunLoop.currentRunLoop().addTimer(self.navigationBarHiddenTimer!, forMode: NSRunLoopCommonModes)
+    }
+
+    func stopNavigationBarHiddenTimer() {
+        if let timer = self.navigationBarHiddenTimer {
+            timer.invalidate()
+            self.navigationBarHiddenTimer = nil
+        }
+    }
+
+    func hideNavigationBar() {
         self.navigationController!.setNavigationBarHidden(true, animated: true)
     }
 
     func backgroundDidTap() {
+        self.stopNavigationBarHiddenTimer()
         let hidden = self.navigationController!.navigationBarHidden
         self.navigationController!.setNavigationBarHidden(!hidden, animated: true)
     }
